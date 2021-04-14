@@ -55,22 +55,35 @@ int main(int argc, const char **argv) {
     std::string output_file_name = args::get(output_file_name_arg);
     std::string trace_file = args::get(trace_file_arg);
     std::string stream_type = args::get(stream_arg);
+    std::ifstream inFile(trace_file);
+    uint64_t trace_cycles = std::count(
+        std::istreambuf_iterator<char>(inFile),
+        std::istreambuf_iterator<char>(),
+        '\n'
+    );
+
+    std::cout << "WARNING: Assigned cycles=" << cycles
+                  << ", with counted trace_cycles=" << trace_cycles
+                  << std::endl;
 
     CPU *cpu;
     if (!trace_file.empty()) {
         cpu = new TraceBasedCPU(config_file, output_dir, trace_file, 
         output_file_name);
+        for (uint64_t clk = 0; clk < trace_cycles; clk++) {
+            cpu->ClockTick();
+        }
     } else {
         if (stream_type == "stream" || stream_type == "s") {
             cpu = new StreamCPU(config_file, output_dir, output_file_name);
         } else {
             cpu = new RandomCPU(config_file, output_dir, output_file_name);
         }
+        for (uint64_t clk = 0; clk < cycles; clk++) {
+            cpu->ClockTick();
+        }
     }
-
-    for (uint64_t clk = 0; clk < cycles; clk++) {
-        cpu->ClockTick();
-    }
+    
     cpu->PrintStats();
 
     delete cpu;

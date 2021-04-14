@@ -177,13 +177,13 @@ void Config::InitOtherParams() {
     }
     if (!DirExist(output_file_name)) {
         std::cout << "WARNING: Printing into " << output_dir
-                  << " , with " << output_file_name << " as the name"
+                  << ", with " << output_file_name << " as the name"
                   << std::endl;
         output_prefix =
             output_dir + reader.Get("other", "output_prefix", output_file_name);
     } else {
         std::cout << "WARNING: Printing into " << output_dir
-                  << " , check the output dir default name"
+                  << ", check the output dir default name"
                   << std::endl;
         output_prefix =
             output_dir + reader.Get("other", "output_prefix", "dramsim3");
@@ -216,6 +216,7 @@ void Config::InitPowerParams() {
     double devices = static_cast<double>(devices_per_rank);
     act_energy_inc =
         VDD * (IDD0 * tRC - (IDD3N * tRAS + IDD2N * tRP)) * devices;
+    // f: inc here are all indicating the increment
     read_energy_inc = VDD * (IDD4R - IDD3N) * burst_cycle * devices;
     write_energy_inc = VDD * (IDD4W - IDD3N) * burst_cycle * devices;
     ref_energy_inc = VDD * (IDD5AB - IDD3N) * tRFC * devices;
