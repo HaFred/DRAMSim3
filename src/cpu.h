@@ -11,9 +11,9 @@ namespace dramsim3 {
 
 class CPU {
    public:
-    CPU(const std::string& config_file, const std::string& output_dir)
+    CPU(const std::string& config_file, const std::string& output_dir, const std::string &output_file_name)
         : memory_system_(
-              config_file, output_dir,
+              config_file, output_dir, output_file_name,
               std::bind(&CPU::ReadCallBack, this, std::placeholders::_1),
               std::bind(&CPU::WriteCallBack, this, std::placeholders::_1)),
           clk_(0) {}
@@ -57,9 +57,11 @@ class StreamCPU : public CPU {
 class TraceBasedCPU : public CPU {
    public:
     TraceBasedCPU(const std::string& config_file, const std::string& output_dir,
-                  const std::string& trace_file);
+                  const std::string& trace_file, const std::string& output_file_name);
     ~TraceBasedCPU() { trace_file_.close(); }
     void ClockTick() override;
+    void PassOutputFileName();
+    std::string output_file_name;
 
    private:
     std::ifstream trace_file_;

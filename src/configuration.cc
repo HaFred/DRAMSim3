@@ -8,8 +8,8 @@
 
 namespace dramsim3 {
 
-Config::Config(std::string config_file, std::string out_dir)
-    : output_dir(out_dir), reader_(new INIReader(config_file)) {
+Config::Config(std::string config_file, std::string out_dir, std::string out_file_name)
+    : output_dir(out_dir), output_file_name(out_file_name), reader_(new INIReader(config_file)) {
     if (reader_->ParseError() < 0) {
         std::cerr << "Can't load config file - " << config_file << std::endl;
         AbruptExit(__FILE__, __LINE__);
@@ -151,6 +151,9 @@ void Config::InitDRAMParams() {
     return;
 }
 
+// f: where the output_dir is passed to all the names then stream out
+// in simple_stats.cc
+// modification: append the output_file_name parser for custom output name
 void Config::InitOtherParams() {
     const auto& reader = *reader_;
     epoch_period = GetInteger("other", "epoch_period", 100000);
@@ -172,8 +175,19 @@ void Config::InitOtherParams() {
     } else {
         output_dir = output_dir + "/";
     }
-    output_prefix =
-        output_dir + reader.Get("other", "output_prefix", "dramsim3");
+    if (!DirExist(output_file_name)) {
+        std::cout << "WARNING: Printing into " << output_dir
+                  << " , with " << output_file_name << " as the name"
+                  << std::endl;
+        output_prefix =
+            output_dir + reader.Get("other", "output_prefix", output_file_name);
+    } else {
+        std::cout << "WARNING: Printing into " << output_dir
+                  << " , check the output dir default name"
+                  << std::endl;
+        output_prefix =
+            output_dir + reader.Get("other", "output_prefix", "dramsim3");
+    }
     json_stats_name = output_prefix + ".json";
     json_epoch_name = output_prefix + "epoch.json";
     txt_stats_name = output_prefix + ".txt";

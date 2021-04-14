@@ -33,7 +33,7 @@ enum class RefreshPolicy {
 
 class Config {
    public:
-    Config(std::string config_file, std::string out_dir);
+    Config(std::string config_file, std::string out_dir, std::string out_file_name);
     Address AddressMapping(uint64_t hex_addr) const;
     // DRAM physical structure
     DRAMProtocol protocol;
@@ -142,6 +142,7 @@ class Config {
     std::string json_stats_name;
     std::string json_epoch_name;
     std::string txt_stats_name;
+    std::string output_file_name;
 
     // Computed parameters
     int request_size_bytes;

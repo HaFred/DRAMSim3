@@ -46,3 +46,8 @@ release
 
 # IDEs / Editors
 .vscode/
+
+# Output traces
+*.csv
+*.json
+*.txt

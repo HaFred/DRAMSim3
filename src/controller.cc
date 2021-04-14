@@ -308,6 +308,8 @@ void Controller::UpdateCommandStats(const Command &cmd) {
         case CommandType::READ:
         case CommandType::READ_PRECHARGE:
             simple_stats_.Increment("num_read_cmds");
+
+            // f: check if DRAM hit, yes then increse the counter in the simple_stats
             if (channel_state_.RowHitCount(cmd.Rank(), cmd.Bankgroup(),
                                            cmd.Bank()) != 0) {
                 simple_stats_.Increment("num_read_row_hits");

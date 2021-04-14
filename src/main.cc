@@ -18,6 +18,11 @@ int main(int argc, const char **argv) {
     args::ValueFlag<std::string> output_dir_arg(
         parser, "output_dir", "Output directory for stats files",
         {'o', "output-dir"}, ".");
+
+    // todo finish here
+    args::ValueFlag<std::string> output_file_name_arg(
+        parser, "output_name", "Name of the output file", 
+    {'f', "output-file"}, "");
     args::ValueFlag<std::string> stream_arg(
         parser, "stream_type", "address stream generator - (random), stream",
         {'s', "stream"}, "");
@@ -47,17 +52,19 @@ int main(int argc, const char **argv) {
 
     uint64_t cycles = args::get(num_cycles_arg);
     std::string output_dir = args::get(output_dir_arg);
+    std::string output_file_name = args::get(output_file_name_arg);
     std::string trace_file = args::get(trace_file_arg);
     std::string stream_type = args::get(stream_arg);
 
     CPU *cpu;
     if (!trace_file.empty()) {
-        cpu = new TraceBasedCPU(config_file, output_dir, trace_file);
+        cpu = new TraceBasedCPU(config_file, output_dir, trace_file, 
+        output_file_name);
     } else {
         if (stream_type == "stream" || stream_type == "s") {
-            cpu = new StreamCPU(config_file, output_dir);
+            cpu = new StreamCPU(config_file, output_dir, output_file_name);
         } else {
-            cpu = new RandomCPU(config_file, output_dir);
+            cpu = new RandomCPU(config_file, output_dir, output_file_name);
         }
     }
 

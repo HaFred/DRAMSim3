@@ -61,8 +61,9 @@ void StreamCPU::ClockTick() {
 
 TraceBasedCPU::TraceBasedCPU(const std::string& config_file,
                              const std::string& output_dir,
-                             const std::string& trace_file)
-    : CPU(config_file, output_dir) {
+                             const std::string& trace_file,
+                             const std::string& output_file_name)
+    : CPU(config_file, output_dir, output_file_name) {
     trace_file_.open(trace_file);
     if (trace_file_.fail()) {
         std::cerr << "Trace file does not exist" << std::endl;
@@ -88,5 +89,10 @@ void TraceBasedCPU::ClockTick() {
     clk_++;
     return;
 }
+
+// void TraceBasedCPU::PassOutputFileName() {
+//     memory_system_.config_->out_file_name = output_file_name;
+//     return;
+// }
 
 }  // namespace dramsim3

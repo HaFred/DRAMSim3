@@ -14,6 +14,7 @@ namespace dramsim3 {
 class MemorySystem {
    public:
     MemorySystem(const std::string &config_file, const std::string &output_dir,
+    const std::string &output_file_name,
                  std::function<void(uint64_t)> read_callback,
                  std::function<void(uint64_t)> write_callback);
     ~MemorySystem();
@@ -29,16 +30,17 @@ class MemorySystem {
 
     bool WillAcceptTransaction(uint64_t hex_addr, bool is_write) const;
     bool AddTransaction(uint64_t hex_addr, bool is_write);
+    Config *config_;
 
    private:
     // These have to be pointers because Gem5 will try to push this object
     // into container which will invoke a copy constructor, using pointers
     // here is safe
-    Config *config_;
     BaseDRAMSystem *dram_system_;
 };
 
 MemorySystem* GetMemorySystem(const std::string &config_file, const std::string &output_dir,
+    const std::string &output_file_name,
                  std::function<void(uint64_t)> read_callback,
                  std::function<void(uint64_t)> write_callback);
 
