@@ -56,21 +56,21 @@ int main(int argc, const char **argv) {
     std::string trace_file = args::get(trace_file_arg);
     std::string stream_type = args::get(stream_arg);
     std::ifstream inFile(trace_file);
-    uint64_t trace_cycles = std::count(
+    uint64_t trace_lines = std::count(
         std::istreambuf_iterator<char>(inFile),
         std::istreambuf_iterator<char>(),
         '\n'
     );
 
-    std::cout << "WARNING: Assigned cycles=" << cycles
-                  << ", with counted trace_cycles=" << trace_cycles
+    std::cout << "INFO: Assigned cycles=" << cycles
+                  << ", with counted trace_lines=" << trace_lines
                   << std::endl;
 
     CPU *cpu;
     if (!trace_file.empty()) {
         cpu = new TraceBasedCPU(config_file, output_dir, trace_file, 
         output_file_name);
-        for (uint64_t clk = 0; clk < trace_cycles; clk++) {
+        for (uint64_t clk = 0; clk < trace_lines; clk++) {
             cpu->ClockTick();
         }
     } else {

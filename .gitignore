@@ -1,7 +1,9 @@
 # project files
 build/
+build_trace_cycle/
 debug_build/
 data/
+backup/
 ext/SuperLU_MT_3.1/
 obj
 dramsim3

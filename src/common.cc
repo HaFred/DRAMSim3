@@ -32,6 +32,7 @@ std::ostream& operator<<(std::ostream& os, const Transaction& trans) {
     return os;
 }
 
+// f: here the input stream of traces is recorded
 std::istream& operator>>(std::istream& is, Transaction& trans) {
     std::unordered_set<std::string> write_types = {"WRITE", "write", "P_MEM_WR",
                                                    "BOFF"};

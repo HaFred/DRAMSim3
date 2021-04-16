@@ -49,7 +49,7 @@ void Config::CalculateSize() {
     int megs_per_rank = megs_per_bank * banks * devices_per_rank;
 
     if (megs_per_rank > channel_size) {
-        std::cout << "WARNING: Cannot create memory system of size "
+        std::cout << "INFO: Cannot create memory system of size "
                   << channel_size
                   << "MB with given device choice! Using default size "
                   << megs_per_rank << " instead!" << std::endl;
@@ -168,7 +168,7 @@ void Config::InitOtherParams() {
     // this would allow outputing to a directory and you can always override
     // these values
     if (!DirExist(output_dir)) {
-        std::cout << "WARNING: Output directory " << output_dir
+        std::cout << "INFO: Output directory " << output_dir
                   << " not exists! Using current directory for output!"
                   << std::endl;
         output_dir = "./";
@@ -176,13 +176,13 @@ void Config::InitOtherParams() {
         output_dir = output_dir + "/";
     }
     if (!DirExist(output_file_name)) {
-        std::cout << "WARNING: Printing into " << output_dir
+        std::cout << "INFO: Printing into " << output_dir
                   << ", with " << output_file_name << " as the name"
                   << std::endl;
         output_prefix =
             output_dir + reader.Get("other", "output_prefix", output_file_name);
     } else {
-        std::cout << "WARNING: Printing into " << output_dir
+        std::cout << "INFO: Printing into " << output_dir
                   << ", check the output dir default name"
                   << std::endl;
         output_prefix =
