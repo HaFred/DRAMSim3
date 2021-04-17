@@ -136,7 +136,7 @@ class Config {
 
 
     int epoch_period;
-    int output_level;
+    int output_level; // f: this is default as 1 in all the dram.ini configs, help to elminiates the json output
     std::string output_dir;
     std::string output_prefix;
     std::string json_stats_name;

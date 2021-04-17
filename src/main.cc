@@ -56,6 +56,7 @@ int main(int argc, const char **argv) {
     std::string trace_file = args::get(trace_file_arg);
     std::string stream_type = args::get(stream_arg);
     std::ifstream inFile(trace_file);
+    // count how many lines in this trace file
     uint64_t trace_lines = std::count(
         std::istreambuf_iterator<char>(inFile),
         std::istreambuf_iterator<char>(),

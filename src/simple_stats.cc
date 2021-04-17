@@ -123,7 +123,7 @@ void SimpleStats::PrintEpochStats() {
 void SimpleStats::PrintFinalStats() {
     UpdateFinalStats();
 
-    if (config_.output_level >= 0) {
+    if (config_.output_level == 0) {
         std::ofstream j_out(config_.json_stats_name, std::ofstream::app);
         j_out << "\"" << std::to_string(channel_id_) << "\":";
         j_out << j_data_;
