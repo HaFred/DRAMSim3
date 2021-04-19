@@ -2,7 +2,7 @@
 
 # this bash file assumes the resnet block is basic block
 
-layers_type=('Conv1' 'CBa' 'FC6')
+layers_type=('Conv1' 'Conv' 'FC6')
 cba_suffix_type=(2 3 4 5)
 cba_2suffix_type=('a' 'b' 's')
 dram_type=('ofmap_write' 'filter_read' 'ifmap_read')
@@ -14,7 +14,7 @@ do
 	for l in ${layers_type[@]}
 	do
 	  # echo $l
-	  if [[ $l  == 'CBa' ]] ; then	  
+	  if [[ $l  == 'Conv' ]] ; then	  
 		# echo "got it"
 		for cs in ${cba_suffix_type[@]}
 		do
