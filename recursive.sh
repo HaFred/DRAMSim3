@@ -1,15 +1,21 @@
 #!/bin/bash
 
-# this bash file assumes the resnet block is basic block
+# recursive.sh
+# perform DRAMSim simulation based on SCALE-Sim traces and dump the result into $1, and then grep the output stats to record the average_power and total_energy into csv files in $2.
+# it assumes the resnet block is basic block.
+
+# recursively running, ./latest_build/dramsim3main configs/DDR4_8Gb_x8_3200.ini -c 10000 -t ./latest_output/apr27_test/test_combine.csv -o ./latest_output/apr27_test/ -f test_combine
 
 echo "Setting the trace output name: $1" # traces_vani_backward
 echo "Setting the stats output dir: $2"  # stats_vani_backward_apr19
+echo "Setting the dataflow for input csv and input folder name: $3" # has to be ws or os
 layers_type=('Conv1' 'Conv' 'FC6')
 cba_suffix_type=(2 3 4 5)
 cba_2suffix_type=('a' 'b' 's')
 dram_type=('ofmap_write' 'filter_read' 'ifmap_read')
-dram_traces_dir=/home/zhongad/playground/SCALE-Sim-Fred/outputs/effgrad_16x16_ws_resnet18_backward/DRAM
-dram_traces_name_prefix=rn18_vani_backward_dram
+dram_traces_dir=/home/zhongad/playground/SCALE-Sim-Fred/outputs/apr28_comb_${3}_effgrad_16x16_resnet18_forward/DRAM
+# dram_traces_name_prefix=rn18_vani_backward_dram
+dram_traces_name_prefix=resnet18_dram
 resnet_basic_block=(1 2)
 mkdir -p latest_output/$1
 # block_dist=(2 2 2 2)
@@ -64,3 +70,11 @@ done
 mkdir $2
 mv *.csv $2
 mv *.txt $2 
+
+# include python matplotlib cmd here
+pwd=$(pwd)
+cd /home/zhongad/PycharmProjects/matplotProject/src/
+python barchart_forward.py --df=$3 --vt=average_power --incsv=${pwd}/$2/
+python barchart_forward.py --df=$3 --vt=total_energy --incsv=${pwd}/$2/
+# get back to the original path
+cd /home/zhongad/playground/DRAMSim3-Fred/latest_output
