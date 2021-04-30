@@ -55,4 +55,3 @@ release
 *.csv
 *.json
 *.txt
-src/test.sh
