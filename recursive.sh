@@ -8,7 +8,7 @@
 
 echo "Setting the trace output name: $1" # traces_vani_backward
 echo "Setting the stats output dir: $2"  # stats_vani_backward_apr19
-echo "Setting the dataflow for input csv and input folder name: $3" # has to be ws or os
+echo "Setting the dataflow for input csv and input folder name: $3" # has to be ws or os, for paper experiments, it is os since more hardware-efficient for resnet-18
 layers_type=('Conv1' 'Conv' 'FC6')
 cba_suffix_type=(2 3 4 5)
 cba_2suffix_type=('a' 'b' 's')
@@ -79,7 +79,7 @@ mv *.txt $2
 pwd=$(pwd) # at ~/latest_output
 cd /home/zhongad/PycharmProjects/matplotProject/src/
 
-# [forward/vani_backward] this 2 lines needs to change
+# [forward/vani_backward/effgrad_backward] this 2 lines needs to change
 python barchart_vani_backward.py --df=$3 --vt=average_power --incsv=${pwd}/$2/
 python barchart_vani_backward.py --df=$3 --vt=total_energy --incsv=${pwd}/$2/
 # get back to the original path
